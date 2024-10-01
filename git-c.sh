@@ -1,7 +1,9 @@
 #!/bin/bash
 
+#Add your GitHub API key here. Optional.
+better_git_commands_api_key="123456abcdef"
+
 url=$1
-api_key= #Add your GitHub API key here. Optional.
 url=${url%.git}
 owner=$(echo $url | sed -E 's/.*github.com\/([^\/]+)\/.*/\1/')
 repo=$(echo $url | sed -E 's/.*\/([^\/]+)(\.git)?$/\1/')
@@ -10,9 +12,9 @@ repo=$(echo $url | sed -E 's/.*\/([^\/]+)(\.git)?$/\1/')
 api_url="https://api.github.com/repos/$owner/$repo"
 
 # If an API key is provided, it is included in the request. This is purely to overcome the 60 req/hour rate limit.
-if [[ -n $api_key ]]; then
-    response=$(curl -s -H "Authorization: token $api_key" "$api_url")
-else
+if [[ -n $better_git_commands_api_key ]]; then
+    response=$(curl -s -H "Authorization: token $better_git_commands_api_key" "$api_url")
+else    
     response=$(curl -s "$api_url")
 fi
 
